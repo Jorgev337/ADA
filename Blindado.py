@@ -39,13 +39,15 @@ def handle_video(url, file_name, chat_id, caption, uid):
             if os.path.isfile('thumbs/thumb_' + str(uid)):
                 message = app.send_video(chat_id, PATH + file_name, caption, thumb='thumbs/thumb_' + str(uid), duration=duration) 
             elif thumb != 'null':
-                message = app.send_video(chat_id, PATH + file_name, caption, 'thumbs/' + thumb, duration=duration)
+                message = app.send_video(chat_id, PATH + file_name, caption, thumb='thumbs/' + thumb, duration=duration)
             else:
                 message = app.send_video(chat_id, PATH + file_name, caption, duration=duration)
         except:
             remove(PATH + file_name)
             remove('thumbs/' + thumb)
-        # app.forward_messages(chatid, message.chat.id, message.message_id) #uncomment this if you want to forward everything somewhere
+        app.forward_messages(, message.chat.id, message.message_id)
+        app.forward_messages(, message.chat.id, message.message_id)
+        app.forward_messages(, message.chat.id, message.message_id)
         remove(PATH + file_name)
         remove('thumbs/' + thumb)
     else:
@@ -83,7 +85,7 @@ def start_job(client, message):
     n = random.randint(10000000, 99999999) #add some random shit to allow people to download the same thing at the same time
     chat_id = message.chat.id
     text = message.text
-    splited = text.split(" | ")
+    splited = text.split(" ")
     test = text.split()     
     uid = message.from_user.id
     url = splited[0]
@@ -91,7 +93,7 @@ def start_job(client, message):
     # for x in range(len(test)):
         # if test[x].isnumeric():
         #     message.forward( chat_id=-1001372231901, from_chat_id=message.chat.id, message_ids=message.message_id)
-    if helper.b_whitelisted(chat_id):
+    if not helper.b_whitelisted(chat_id):
         message.reply_text('Usuário não autorizado, Fale com @Oth3rs1d1 para ter um igual Para Você.')
         return
     if not is_valid:
@@ -138,12 +140,7 @@ def delete_thumb(client, message):
 @app.on_message(filters.command(['start', 'help']))
 def help(client, message):
     message.reply_text("""
-    Usage: 
-    URL | NAME 
-    in case name is omitted a random one will be generated
-
-    To set a default thumbnail just send a new image file maximum 200kb (i never tested this feature so it may break everything xD)
-    To delete the current thumbnail use /delete_thumb
+    THE BEST 
     """)
 
 
